@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TFLite Kamera',
+      title: 'Klasifikasi Nominal Uang Rupiah',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: MyHomePage(camera: camera),
     );
@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isCameraInitialized = false;
   String _output = '';
 
+  // Kelas Klasifikasi nominal uang rupiah
   final Map<int, String> labels = {
     0: 'Seribu',
     1: 'Seribu',
@@ -65,12 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _initCameraAndModel();
   }
-
+  // Inisialisasi Kamera
   Future<void> _initCameraAndModel() async {
     _controller = CameraController(widget.camera, ResolutionPreset.medium, enableAudio: false);
     await _controller.initialize();
     await _controller.setFlashMode(FlashMode.off); // 🔕 Matikan flash
-
+    // Mengambil Model.tflite
     _interpreter = await Interpreter.fromAsset('assets/model.tflite');
 
     setState(() => _isCameraInitialized = true);
@@ -85,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final decodedImage = img.decodeImage(bytes)!;
     final resizedImage = img.copyResize(decodedImage, width: 224, height: 224);
 
+    // Auto Resize gambar input
     var input = List.generate(1, (_) => List.generate(224, (_) => List.generate(224, (_) => List.filled(3, 0.0))));
     for (int y = 0; y < 224; y++) {
       for (int x = 0; x < 224; x++) {
@@ -125,18 +127,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text("TFLite Kamera")),
       body: Column(
         children: [
-          AspectRatio(aspectRatio: _controller.value.aspectRatio, child: CameraPreview(_controller)),
+          Padding(padding : const EdgeInsets.all(16.0),
+          child : AspectRatio(aspectRatio: _controller.value.aspectRatio,
+          child : CameraPreview(_controller),
+          ),
+          ),
+          // AspectRatio(aspectRatio: _controller.value.aspectRatio, child: CameraPreview(_controller)),
+          const SizedBox(height: 170),
+          Text(_output, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
+          // Button untuk klasifikasi
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
               textStyle: const TextStyle(fontSize: 18),
             ),
             onPressed: _classifyImage,
             child: const Text("Ambil Gambar & Klasifikasi"),
           ),
-          const SizedBox(height: 20),
-          Text(_output, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ],
       ),
     );
