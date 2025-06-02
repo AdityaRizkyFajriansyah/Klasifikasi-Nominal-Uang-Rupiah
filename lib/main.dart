@@ -127,9 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text("TFLite Kamera")),
       body: Column(
         children: [
-          Padding(padding : const EdgeInsets.all(16.0),
+          Center(
+          child : Padding(padding : const EdgeInsets.all(30.0),
           child : AspectRatio(aspectRatio: _controller.value.aspectRatio,
           child : CameraPreview(_controller),
+          ),
           ),
           ),
           // AspectRatio(aspectRatio: _controller.value.aspectRatio, child: CameraPreview(_controller)),
