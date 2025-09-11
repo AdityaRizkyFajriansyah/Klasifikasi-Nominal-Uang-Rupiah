@@ -4,7 +4,7 @@
     <!-- Jika targetSdk 33+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
-        android:label="klasifikasi_uang"
+        android:label="Suvara"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

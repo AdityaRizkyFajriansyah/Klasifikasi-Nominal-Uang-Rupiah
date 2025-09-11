@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Klasifikasi Nominal Uang Rupiah',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: MyHomePage(camera: camera),
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _isCameraInitialized = true);
 
     await _flutterTts.speak("Kamera siap digunakan");
-    await _flutterTts.speak("Silakan tekan tombol untuk klasifikasi");
+    await _flutterTts.speak("Silakan tekan tombol untuk klasifikasi yang ada dibawah");
   }
 
   Future<void> _classifyImage() async {
@@ -124,7 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("TFLite Kamera")),
+      backgroundColor: Color(0xFF8DBCC7),
+      appBar: AppBar(title: const Text("TFLite Kamera"),
+      backgroundColor: Color(0xFFC4E1E6),),
       body: Column(
         children: [
           Center(
@@ -138,14 +141,16 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(height: 170),
           Text(_output, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
-          // Button untuk klasifikasi
+           // Button untuk klasifikasi
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
               textStyle: const TextStyle(fontSize: 18),
+              backgroundColor: Color(0xFFC4E1E6),
             ),
             onPressed: _classifyImage,
-            child: const Text("Ambil Gambar & Klasifikasi"),
+            child: const Text("Ambil Gambar & Klasifikasi",
+            style: TextStyle(color : Colors.black),)
           ),
         ],
       ),
